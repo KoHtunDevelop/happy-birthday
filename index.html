@@ -22,54 +22,87 @@
             overflow: hidden;
             text-align: center;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 40px 30px;
+
+        /* စာအိတ် ပုံစံ */
+        .envelope-container {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: bounce 1.5s infinite alternate;
+        }
+        .envelope-container:hover {
+            transform: scale(1.1);
+        }
+        .envelope {
+            background: #ff4081;
+            width: 280px;
+            height: 180px;
+            position: relative;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #e0356f;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+        .envelope-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 2;
+            margin-top: 40px;
+        }
+
+        /* ပွင့်လာမည့် မွေးနေ့ ကတ်ပြား */
+        .card {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             max-width: 90%;
-            width: 400px;
+            width: 380px;
             backdrop-filter: blur(10px);
-            animation: fadeIn 2s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
+            position: absolute;
+        }
+        /* မွေးနေ့ရှင် ဓာတ်ပုံစတိုင် */
+        .birthday-photo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff4081;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         h1 {
             color: #ff4081;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            animation: bounce 1.5s infinite alternate;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
         p {
             color: #555;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .cake {
-            font-size: 80px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .cake:hover {
-            transform: scale(1.2) rotate(5deg);
-        }
-        .btn {
-            background: #ff4081;
-            color: white;
-            border: none;
-            padding: 12px 28px;
             font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
-            transition: background 0.3s ease, transform 0.2s;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
-        .btn:hover {
-            background: #e0356f;
-            transform: translateY(-2px);
+        .audio-player {
+            width: 100%;
+            margin-top: 10px;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1); }
         }
         @keyframes bounce {
@@ -80,33 +113,48 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="cake" onclick="surprise()">🎂</div>
-        <!-- ဤနေရာတွင် နာမည် ပြောင်းလဲနိုင်ပါသည်။ -->
+    <!-- ၁။ ပထမဦးဆုံးပေါ်နေမည့် စာအိတ်ပုံစံ -->
+    <div class="envelope-container" id="envelopeBox" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="envelope-text">💌 နှိပ်၍ ဖွင့်ပါ</div>
+        </div>
+    </div>
+
+    <!-- ၂။ စာအိတ်ကို နှိပ်လိုက်မှ ပေါ်လာမည့် မွေးနေ့ဆုတောင်းကတ်ပြား -->
+    <div class="card" id="birthdayCard">
+        <!-- မွေးနေ့ရှင် ဓာတ်ပုံ (photo.jpg နေရာတွင် သင်ထည့်လိုသည့် ပုံနာမည်ကို ပြောင်းပါ) -->
+        <img src="photo.jpg" alt="Birthday Person" class="birthday-photo">
+        
         <h1>Happy Birthday! 🎉</h1>
         
-        <!-- ဤနေရာတွင် မိမိဆုတောင်းပေးချင်သည့် စာသားများကို ပြောင်းရေးပါ -->
-        <p>မွေးနေ့မှစ၍ နောင်နှစ်ပေါင်းများစွာတိုင် အပျော်ရွှင်ဆုံး၊ အအောင်မြင်ဆုံးနေ့ရက်များကို ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းပေးလိုက်ပါတယ်။ 🎈✨</p>
+        <!-- မွေးနေ့ဆုတောင်းစာ -->
+        <p>မွေးနေ့မှစ၍ နောင်နှစ်ပေါင်းများစွာတိုင် အပျော်ရွှင်ဆုံး၊ အအောင်မြင်ဆုံးနေ့ရက်များကို ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းပေးလိုက်ပါတယ်ရှင်။ 🎈✨</p>
         
-        <button class="btn" onclick="surprise()">Surprise ကိုနှိပ်ပါ 🎁</button>
+        <!-- Podcast သို့မဟုတ် သီချင်း အသံဖိုင် (audio.mp3 နေရာတွင် သင့်အသံဖိုင်နာမည်ထည့်ပါ) -->
+        <audio class="audio-player" id="bdayAudio" controls>
+            <source src="audio.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 
     <script>
-        // စာမျက်နှာပွင့်လာသည်နှင့် Confetti (မီးရှူးမီးပန်းပွင့်လေးများ) ပစ်မည်
-        window.onload = () => {
-            launchConfetti();
-        };
-
-        function launchConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
+        function openEnvelope() {
+            // စာအိတ်ကို ဖျောက်မည်
+            document.getElementById('envelopeBox').style.display = 'none';
+            // မွေးနေ့ကတ်ပြားကို ပေါ်လာစေမည်
+            document.getElementById('birthdayCard').style.display = 'block';
+            
+            // အသံဖိုင် (Podcast) အလိုအလျောက် စတင်ရန်
+            var audio = document.getElementById('bdayAudio');
+            audio.play().catch(error => {
+                console.log("Audio autoplay restricted by browser, user can click play.");
             });
+
+            // မီးရှူးမီးပန်းများ ပစ်ဖောက်မည်
+            launchConfetti();
         }
 
-        function surprise() {
-            // နှိပ်လိုက်ပါက ထပ်မံ၍ မီးရှူးမီးပန်းပစ်မည်
+        function launchConfetti() {
             var duration = 3 * 1000;
             var end = Date.now() + duration;
 
