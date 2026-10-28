@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 400px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 2s ease-in-out;
+        }
+        h1 {
+            color: #ff4081;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            animation: bounce 1.5s infinite alternate;
+        }
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .cake {
+            font-size: 80px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .cake:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+        .btn {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            transition: background 0.3s ease, transform 0.2s;
+        }
+        .btn:hover {
+            background: #e0356f;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="cake" onclick="surprise()">🎂</div>
+        <!-- ဤနေရာတွင် နာမည် ပြောင်းလဲနိုင်ပါသည်။ -->
+        <h1>Happy Birthday! 🎉</h1>
+        
+        <!-- ဤနေရာတွင် မိမိဆုတောင်းပေးချင်သည့် စာသားများကို ပြောင်းရေးပါ -->
+        <p>မွေးနေ့မှစ၍ နောင်နှစ်ပေါင်းများစွာတိုင် အပျော်ရွှင်ဆုံး၊ အအောင်မြင်ဆုံးနေ့ရက်များကို ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းပေးလိုက်ပါတယ်။ 🎈✨</p>
+        
+        <button class="btn" onclick="surprise()">Surprise ကိုနှိပ်ပါ 🎁</button>
+    </div>
+
+    <script>
+        // စာမျက်နှာပွင့်လာသည်နှင့် Confetti (မီးရှူးမီးပန်းပွင့်လေးများ) ပစ်မည်
+        window.onload = () => {
+            launchConfetti();
+        };
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function surprise() {
+            // နှိပ်လိုက်ပါက ထပ်မံ၍ မီးရှူးမီးပန်းပစ်မည်
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
